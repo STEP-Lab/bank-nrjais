@@ -14,7 +14,6 @@ public class AccountTest {
   @Before
   public void setUp() throws MinimumBalanceException, InvalidAccountNumberException {
     account = new Account("1234-1234", 1000);
-    //withdraw feature check balance also
   }
 
   @Test
@@ -38,5 +37,12 @@ public class AccountTest {
   @Test
   public void checkAccountNumber() {
     assertThat(account.getAccountNumber(), is("1234-1234"));
+  }
+
+  @Test
+  public void withdraw() throws MinimumBalanceException, InvalidAccountNumberException {
+    Account account = new Account("1234-1264", 2000);
+    assertThat(account.withdraw(200), is((float) 1800));
+    assertThat(account.getBalance(), is((float) 1800));
   }
 }

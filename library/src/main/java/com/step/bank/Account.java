@@ -27,4 +27,9 @@ public class Account {
   public String getAccountNumber() {
     return accNumber;
   }
+
+  public float withdraw(float amount) {
+    this.balance -= amount;
+    return this.getBalance();
+  }
 }
