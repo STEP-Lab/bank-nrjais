@@ -21,7 +21,7 @@ public class AccountTest {
 
   @Test
   public void checkBalance(){
-    assertThat(account.getBalance(), is(1000));
+    assertThat(account.getBalance(), is((float) 1000));
   }
 
   @Test(expected = MinimumBalanceException.class)
