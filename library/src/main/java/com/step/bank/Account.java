@@ -1,24 +1,23 @@
 package com.step.bank;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Account {
   private final String accountNumber;
   private float balance;
   private static final float MINIMUM_BALANCE = 1000;
 
   public Account(String accountNumber, float balance) throws MinimumBalanceException, InvalidAccountNumberException {
-    Pattern regex = Pattern.compile("[\\d]{4}-[\\d]{4}");
-    Matcher matcher = regex.matcher(accountNumber);
-    if(!matcher.matches()){
+    if(!accountNumber.matches("^\\d{4}-\\d{4}$")){
       throw new InvalidAccountNumberException();
     }
     this.accountNumber = accountNumber;
+    checkMinimumBalance(balance);
+    this.balance = balance;
+  }
+
+  private static void checkMinimumBalance(float balance) throws MinimumBalanceException {
     if(balance < MINIMUM_BALANCE){
       throw new MinimumBalanceException();
     }
-    this.balance = balance;
   }
 
   public float getBalance() {
@@ -31,9 +30,7 @@ public class Account {
 
   public float withdraw(float amount) throws MinimumBalanceException {
     float balance = this.balance - amount;
-    if(balance < MINIMUM_BALANCE){
-      throw new MinimumBalanceException();
-    }
+    checkMinimumBalance(balance);
     this.balance = balance;
     return this.getBalance();
   }

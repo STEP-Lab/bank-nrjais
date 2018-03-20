@@ -29,7 +29,7 @@ public class AccountTest {
   @Test(expected = InvalidAccountNumberException.class)
   public void checkAccountNumberValidity() throws MinimumBalanceException, InvalidAccountNumberException {
     new Account("1234",1000);
-    new Account("1234-4323",1000); //not working test
+    new Account("12734-4323",1000); //not working test
     new Account("12-34",1000); //not working test
     new Account("1245-32344",1000); //not working test
   }
