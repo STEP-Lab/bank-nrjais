@@ -2,25 +2,22 @@ package com.step.bank;
 
 public class Account {
   private final String accountNumber;
-  private float balance;
+  private double balance;
   private static final float MINIMUM_BALANCE = 1000;
 
-  public Account(String accountNumber, float balance) throws MinimumBalanceException, InvalidAccountNumberException {
-    if(!accountNumber.matches("^\\d{4}-\\d{4}$")){
-      throw new InvalidAccountNumberException();
-    }
+  public Account(String accountNumber, double balance) throws MinimumBalanceException {
     this.accountNumber = accountNumber;
     checkMinimumBalance(balance);
     this.balance = balance;
   }
 
-  private static void checkMinimumBalance(float balance) throws MinimumBalanceException {
+  private static void checkMinimumBalance(double balance) throws MinimumBalanceException {
     if(balance < MINIMUM_BALANCE){
       throw new MinimumBalanceException();
     }
   }
 
-  public float getBalance() {
+  public double getBalance() {
     return balance;
   }
 
@@ -28,8 +25,8 @@ public class Account {
     return accountNumber;
   }
 
-  public float withdraw(float amount) throws MinimumBalanceException {
-    float balance = this.balance - amount;
+  public double withdraw(float amount) throws MinimumBalanceException {
+    double balance = this.balance - amount;
     checkMinimumBalance(balance);
     this.balance = balance;
     return this.getBalance();

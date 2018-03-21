@@ -1,5 +1,4 @@
 import com.step.bank.Account;
-import com.step.bank.InvalidAccountNumberException;
 import com.step.bank.MinimumBalanceException;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,26 +11,18 @@ public class AccountTest {
   private Account account;
 
   @Before
-  public void setUp() throws MinimumBalanceException, InvalidAccountNumberException {
+  public void setUp() throws MinimumBalanceException {
     account = new Account("1234-1234", 1000);
   }
 
   @Test
   public void checkBalance(){
-    assertThat(account.getBalance(), is((float) 1000));
+    assertThat(account.getBalance(), is( 1000.0));
   }
 
   @Test(expected = MinimumBalanceException.class)
-  public void checkMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
+  public void checkMinimumBalance() throws MinimumBalanceException {
     new Account("1322-4234",200);
-  }
-
-  @Test(expected = InvalidAccountNumberException.class)
-  public void checkAccountNumberValidity() throws MinimumBalanceException, InvalidAccountNumberException {
-    new Account("1234",1000);
-    new Account("12734-4323",1000); //not working test
-    new Account("12-34",1000); //not working test
-    new Account("1245-32344",1000); //not working test
   }
 
   @Test
@@ -40,14 +31,14 @@ public class AccountTest {
   }
 
   @Test
-  public void withdraw() throws MinimumBalanceException, InvalidAccountNumberException {
+  public void withdraw() throws MinimumBalanceException {
     Account account = new Account("1234-1264", 2000);
-    assertThat(account.withdraw(200), is((float) 1800));
-    assertThat(account.getBalance(), is((float) 1800));
+    assertThat(account.withdraw(200), is(1800.0));
+    assertThat(account.getBalance(), is(1800.0));
   }
 
   @Test(expected = MinimumBalanceException.class)
-  public void withdrawMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
+  public void withdrawMinimumBalance() throws MinimumBalanceException {
     new Account("1234-1264", 1000).withdraw(200);
   }
 }
