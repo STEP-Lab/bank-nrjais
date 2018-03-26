@@ -14,4 +14,12 @@ public class TransactionTest {
     DebitTransaction transaction = new DebitTransaction(date,1000.0, "Another Account");
     assertThat(transaction.getDate(),is(date));
   }
+
+  @Test
+  public void mustCreateACreditTransaction() {
+    Date date = new Date();
+    CreditTransaction transaction = new CreditTransaction(date,1000.0, "Another Account");
+    assertThat(transaction.getDate(),is(date));
+  }
+
 }

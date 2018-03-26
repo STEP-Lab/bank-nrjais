@@ -13,4 +13,8 @@ public class Transactions {
   public void debit(double amount, String name) {
     this.list.add(new DebitTransaction(amount, name));
   }
+
+  public void credit(double amount, String name) {
+    this.list.add(new CreditTransaction(amount,name));
+  }
 }

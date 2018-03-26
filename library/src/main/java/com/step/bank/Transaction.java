@@ -8,7 +8,7 @@ public class Transaction {
   private final String to;
   private Date date;
 
-  Transaction(double amount, Date date, String to) {
+  Transaction(Date date, double amount, String to) {
     this.amount = amount;
     this.date = date;
     this.to = to;
