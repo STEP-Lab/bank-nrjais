@@ -3,9 +3,12 @@ package com.step.bank;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
 public class TransactionsTest {
@@ -13,7 +16,7 @@ public class TransactionsTest {
   private Transactions transactions;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     transactions = new Transactions();
   }
 
@@ -40,5 +43,41 @@ public class TransactionsTest {
     Date creditDate = transactions.list.get(1).getDate();
     assertThat(transactions.list, hasItem(new DebitTransaction(debitDate,1000,"Another")));
     assertThat(transactions.list, hasItem(new CreditTransaction(creditDate,1000,"Another")));
+  }
+
+  @Test
+  public void printTransactions() throws FileNotFoundException, UnsupportedEncodingException {
+    ArrayList<String> result = new ArrayList<>();
+    PrintWriter printWriter = new PrintWriter("file.txt", "UTF-8") {
+      @Override
+      public void println(String x) {
+        result.add(x);
+      }
+    };
+    transactions.credit(1100,"Neeraj");
+    transactions.credit(2400,"Arvind");
+    transactions.credit(6300,"Nitesh");
+    transactions.print(printWriter);
+    printWriter.close();
+    assertThat(result, hasItems(new CreditTransaction(1100, "Neeraj").toString()
+        ,new CreditTransaction(2400, "Arvind").toString()
+        ,new CreditTransaction(6300, "Nitesh").toString()));
+  }
+
+  @Test
+  public void filterTransactionsByAmount() {
+    transactions.credit(100,"Neeraj");
+    transactions.credit(1000,"Arvind");
+    transactions.credit(10000,"Nitesh");
+    transactions.credit(500,"Debarun");
+    transactions.credit(600,"Subham");
+    transactions.credit(1100,"Vivek");
+    transactions.credit(2400,"Ashish");
+    transactions.credit(6300,"Ravinder");
+    Transactions filteredTransactions = this.transactions.filterByAmountGreaterThan(1000);
+    assertThat(filteredTransactions.list, hasItems(new CreditTransaction(10000, "Nitesh")
+        ,new CreditTransaction(1100, "Vivek")
+        ,new CreditTransaction(2400, "Ashish")
+        ,new CreditTransaction(6300, "Ravinder")));
   }
 }

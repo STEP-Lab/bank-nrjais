@@ -41,4 +41,8 @@ public class Transaction {
         ", date=" + date +
         '}';
   }
+
+  public double getAmount() {
+    return amount;
+  }
 }
