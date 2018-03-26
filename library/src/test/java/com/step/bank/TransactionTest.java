@@ -9,10 +9,9 @@ import static org.junit.Assert.assertThat;
 
 public class TransactionTest {
   @Test
-
   public void mustCreateADebitTransaction() {
     Date date = new Date();
-    DebitTransaction transaction = new DebitTransaction(date,10000, "Another Account");
+    DebitTransaction transaction = new DebitTransaction(date,1000.0, "Another Account");
     assertThat(transaction.getDate(),is(date));
   }
 }
