@@ -21,7 +21,8 @@ public class TransactionsTest {
   public void mustRecordDebitTransaction() {
     transactions.debit(1000.0,"Another");
     Date date = transactions.list.get(0).getDate();
-    assertThat(transactions.list, hasItem(new DebitTransaction(date,1000,"Another")));
+    DebitTransaction debitTransaction = new DebitTransaction(date, 1000, "Another");
+    assertThat(transactions.list, hasItem(debitTransaction));
   }
 
   @Test

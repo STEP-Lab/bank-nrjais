@@ -21,5 +21,4 @@ public class TransactionTest {
     CreditTransaction transaction = new CreditTransaction(date,1000.0, "Another Account");
     assertThat(transaction.getDate(),is(date));
   }
-
 }
