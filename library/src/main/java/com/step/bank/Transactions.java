@@ -33,4 +33,11 @@ public class Transactions {
       writer.println(transaction.toString());
     }
   }
+
+  public void writeCSVTo(PrintWriter printWriter) {
+    String[] headers = {"To","Amount","Date"};
+    CSVWriter writer = new CSVWriter(printWriter,headers);
+    writer.write(list);
+    writer.close();
+  }
 }

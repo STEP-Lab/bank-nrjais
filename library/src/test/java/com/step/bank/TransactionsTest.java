@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
@@ -79,5 +80,25 @@ public class TransactionsTest {
         ,new CreditTransaction(1100, "Vivek")
         ,new CreditTransaction(2400, "Ashish")
         ,new CreditTransaction(6300, "Ravinder")));
+  }
+
+  @Test
+  public void writeCSVToFile() throws FileNotFoundException, UnsupportedEncodingException {
+    String[] headers = {"To","Amount","Date"};
+    ArrayList<String> result = new ArrayList<>();
+    PrintWriter printWriter = new PrintWriter("file.txt", "UTF-8") {
+      @Override
+      public void println(String x) {
+        result.add(x);
+      }
+    };
+    transactions.credit(120.0,"name");
+    transactions.credit(1230.0,"name2");
+    transactions.credit(1220.0,"name3");
+    transactions.writeCSVTo(printWriter);
+    assertThat(result, hasItems(String.join(",", Arrays.asList(headers))
+        ,new DebitTransaction(transactions.list.get(0).getDate(), 120.0,"name").toCSV()
+        ,new DebitTransaction(transactions.list.get(1).getDate(), 1230.0,"name2").toCSV()
+        ,new DebitTransaction(transactions.list.get(2).getDate(), 1220.0,"name3").toCSV()));
   }
 }
