@@ -2,6 +2,7 @@ package com.step.bank;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Transactions {
 
@@ -63,6 +64,24 @@ public class Transactions {
     Transactions transactions = new Transactions();
     for (Transaction transaction : list) {
       if (transaction instanceof CreditTransaction)
+        transactions.list.add(transaction);
+    }
+    return transactions;
+  }
+
+  public Transactions getAllTransactionsAfter(Date date) {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : list) {
+      if (transaction.getDate().compareTo(date) == 1)
+        transactions.list.add(transaction);
+    }
+    return transactions;
+  }
+
+  public Transactions getAllTransactionsBefore(Date date) {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : list) {
+      if (transaction.getDate().compareTo(date) == -1)
         transactions.list.add(transaction);
     }
     return transactions;

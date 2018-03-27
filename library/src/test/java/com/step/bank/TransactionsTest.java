@@ -156,4 +156,57 @@ public class TransactionsTest {
         ,new CreditTransaction(transactions.list.get(6).getDate(),6300, "Ravinder")
         ,new CreditTransaction(transactions.list.get(7).getDate(),2400, "Ashish")));
   }
+
+  @Test
+  public void getAllTransactionsAfter() {
+    transactions.debit(100,"Neeraj");
+    transactions.credit(1000,"Arvind");
+    transactions.debit(10000,"Nitesh");
+    transactions.debit(500,"Debarun");
+    transactions.credit(600,"Subham");
+    transactions.debit(1100,"Vivek");
+    transactions.credit(2400,"Ashish");
+    transactions.credit(6300,"Ravinder");
+    transactions.list.get(0).getDate().setDate(25);
+    transactions.list.get(1).getDate().setDate(22);
+    transactions.list.get(2).getDate().setDate(21);
+    transactions.list.get(3).getDate().setDate(20);
+    transactions.list.get(4).getDate().setDate(15);
+    transactions.list.get(5).getDate().setDate(12);
+    transactions.list.get(6).getDate().setDate(11);
+    transactions.list.get(7).getDate().setDate(11);
+    Date date = new Date();
+    date.setDate(21);
+    Transactions filteredTransactions = this.transactions.getAllTransactionsAfter(date);
+    assertThat(filteredTransactions.list, hasItems(
+        new DebitTransaction(transactions.list.get(0).getDate(),100, "Neeraj")
+        ,new CreditTransaction(transactions.list.get(1).getDate(),1000, "Arvind")));
+  }
+
+  @Test
+  public void getAllTransactionsBefore() {
+    transactions.debit(100,"Neeraj");
+    transactions.credit(1000,"Arvind");
+    transactions.debit(10000,"Nitesh");
+    transactions.debit(500,"Debarun");
+    transactions.credit(600,"Subham");
+    transactions.debit(1100,"Vivek");
+    transactions.credit(2400,"Ashish");
+    transactions.credit(6300,"Ravinder");
+    transactions.list.get(0).getDate().setDate(25);
+    transactions.list.get(1).getDate().setDate(22);
+    transactions.list.get(2).getDate().setDate(21);
+    transactions.list.get(3).getDate().setDate(20);
+    transactions.list.get(4).getDate().setDate(15);
+    transactions.list.get(5).getDate().setDate(12);
+    transactions.list.get(6).getDate().setDate(11);
+    transactions.list.get(7).getDate().setDate(11);
+    Date date = new Date();
+    date.setDate(15);
+    Transactions filteredTransactions = this.transactions.getAllTransactionsBefore(date);
+    assertThat(filteredTransactions.list, hasItems(
+        new DebitTransaction(transactions.list.get(5).getDate(),1100, "Vivek")
+        ,new CreditTransaction(transactions.list.get(6).getDate(),2400, "Ashish")
+        ,new CreditTransaction(transactions.list.get(7).getDate(),6300, "Ravinder")));
+  }
 }
