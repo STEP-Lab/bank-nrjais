@@ -29,12 +29,18 @@ public class AccountTest {
 
   @Test
   public void withdraw() throws MinimumBalanceException {
-    assertThat(account.withdraw(200), is(Money.of(CurrencyUnit.of("INR"),1800.0)));
+    assertThat(account.withdraw(200.0,"Account"), is(Money.of(CurrencyUnit.of("INR"),1800.0)));
     assertThat(account.getBalance(), is(Money.of(CurrencyUnit.of("INR"),1800.0)));
+  }
+
+  @Test
+  public void credit() {
+    assertThat(account.credit(200.0,"Account"), is(Money.of(CurrencyUnit.of("INR"),2200.0)));
+    assertThat(account.getBalance(), is(Money.of(CurrencyUnit.of("INR"),2200.0)));
   }
 
   @Test(expected = MinimumBalanceException.class)
   public void withdrawMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
-    new Account(new AccountNumber("1234-1234"), 1000).withdraw(200);
+    new Account(new AccountNumber("1234-1234"), 1000).withdraw(200.0, "Account");
   }
 }

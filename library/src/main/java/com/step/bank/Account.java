@@ -34,4 +34,11 @@ public class Account {
     transactions.debit(amount, by);
     return this.getBalance();
   }
+
+  public Money credit(double amount, String to) {
+    Money balance = this.balance.plus(amount);
+    this.balance = balance;
+    transactions.credit(amount, to);
+    return this.getBalance();
+  }
 }
