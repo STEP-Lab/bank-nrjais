@@ -1,6 +1,7 @@
 package com.step.bank;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CSVWriter{
@@ -15,5 +16,15 @@ public class CSVWriter{
 
   public void write(Transaction transaction) {
     printWriter.println(transaction.toCSV());
+  }
+
+  public void write(ArrayList<Transaction> transactions) {
+    for (Transaction transaction : transactions) {
+      printWriter.println(transaction.toCSV());
+    }
+  }
+
+  public void close() {
+    printWriter.close();
   }
 }
