@@ -1,28 +1,32 @@
 package com.step.bank;
 
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
+
 public class Account {
   private final AccountNumber accountNumber;
-  private double balance;
-  private static final float MINIMUM_BALANCE = 1000;
+  private Money balance;
+  private static final Money MINIMUM_BALANCE = Money.of(CurrencyUnit.of("INR"), 1000.0);
 
   public Account(AccountNumber accountNumber, double balance) throws MinimumBalanceException {
     this.accountNumber = accountNumber;
-    checkMinimumBalance(balance);
-    this.balance = balance;
+    Money money = Money.of(CurrencyUnit.of("INR"), balance);
+    checkMinimumBalance(money);
+    this.balance = money;
   }
 
-  private static void checkMinimumBalance(double balance) throws MinimumBalanceException {
-    if(balance < MINIMUM_BALANCE){
+  private static void checkMinimumBalance(Money balance) throws MinimumBalanceException {
+    if(balance.isLessThan(MINIMUM_BALANCE)){
       throw new MinimumBalanceException();
     }
   }
 
-  public double getBalance() {
+  public Money getBalance() {
     return balance;
   }
 
-  public double withdraw(float amount) throws MinimumBalanceException {
-    double balance = this.balance - amount;
+  public Money withdraw(float amount) throws MinimumBalanceException {
+    Money balance = this.balance.minus(amount);
     checkMinimumBalance(balance);
     this.balance = balance;
     return this.getBalance();

@@ -1,5 +1,7 @@
 package com.step.bank;
 
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +19,7 @@ public class AccountTest {
 
   @Test
   public void checkBalance(){
-    assertThat(account.getBalance(), is( 2000.0));
+    assertThat(account.getBalance(), is( Money.of(CurrencyUnit.of("INR"),2000.0)));
   }
 
   @Test(expected = MinimumBalanceException.class)
@@ -27,8 +29,8 @@ public class AccountTest {
 
   @Test
   public void withdraw() throws MinimumBalanceException {
-    assertThat(account.withdraw(200), is(1800.0));
-    assertThat(account.getBalance(), is(1800.0));
+    assertThat(account.withdraw(200), is(Money.of(CurrencyUnit.of("INR"),1800.0)));
+    assertThat(account.getBalance(), is(Money.of(CurrencyUnit.of("INR"),1800.0)));
   }
 
   @Test(expected = MinimumBalanceException.class)
