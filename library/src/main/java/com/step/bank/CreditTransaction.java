@@ -3,11 +3,11 @@ package com.step.bank;
 import java.util.Date;
 
 public class CreditTransaction extends Transaction{
-  protected CreditTransaction(Date date, double amount, String to) {
-    super(date,amount,to);
+  protected CreditTransaction(Date date, double amount, String to, double balance) {
+    super(date,amount,to,balance);
   }
 
-  CreditTransaction(double amount, String to) {
-    this(new Date(),amount,to);
+  CreditTransaction(double amount, String to, double balance) {
+    this(new Date(),amount,to,balance);
   }
 }

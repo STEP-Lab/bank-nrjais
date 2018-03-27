@@ -31,14 +31,14 @@ public class Account {
     Money balance = this.balance.minus(amount);
     checkMinimumBalance(balance);
     this.balance = balance;
-    transactions.debit(amount, by);
+    transactions.debit(amount, by, balance.getAmountMajor().doubleValue());
     return this.getBalance();
   }
 
   public Money credit(double amount, String to) {
     Money balance = this.balance.plus(amount);
     this.balance = balance;
-    transactions.credit(amount, to);
+    transactions.credit(amount, to, balance.getAmountMajor().doubleValue());
     return this.getBalance();
   }
 }

@@ -12,12 +12,12 @@ public class Transactions {
     this.list = new ArrayList<>();
   }
 
-  public void debit(double amount, String name) {
-    this.list.add(new DebitTransaction(amount, name));
+  public void debit(double amount, String name, double balance) {
+    this.list.add(new DebitTransaction(amount, name, balance));
   }
 
-  public void credit(double amount, String name) {
-    this.list.add(new CreditTransaction(amount,name));
+  public void credit(double amount, String name, double balance) {
+    this.list.add(new CreditTransaction(amount,name, balance));
   }
 
   public Transactions filterByAmountGreaterThan(double amount) {
@@ -36,7 +36,7 @@ public class Transactions {
   }
 
   public void writeCSVTo(PrintWriter printWriter) {
-    String[] headers = {"To","Amount","Date"};
+    String[] headers = {"Date","Amount","To","Balance"} ;
     CSVWriter writer = new CSVWriter(printWriter,headers);
     writer.write(list);
     writer.close();

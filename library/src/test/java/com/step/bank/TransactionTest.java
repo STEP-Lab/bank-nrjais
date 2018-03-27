@@ -16,7 +16,7 @@ public class TransactionTest {
   @Before
   public void setUp() throws Exception {
     date = new Date();
-    transaction = new DebitTransaction(date,1000.0, "Another Account");
+    transaction = new DebitTransaction(date,1000.0, "Another Account", 100.0);
   }
 
   @Test
@@ -31,6 +31,6 @@ public class TransactionTest {
 
   @Test
   public void mustReturnCSV() {
-    assertThat(transaction.toCSV(),is("Another Account,1000.0,"+date.toString()));
+    assertThat(transaction.toCSV(),is(date.toString()+",1000.0,Another Account,100.0"));
   }
 }

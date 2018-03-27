@@ -6,12 +6,14 @@ import java.util.Objects;
 public class Transaction {
   private final double amount;
   private final String to;
+  private double balance;
   private Date date;
 
-  Transaction(Date date, double amount, String to) {
+  Transaction(Date date, double amount, String to, double balance) {
     this.amount = amount;
     this.date = date;
     this.to = to;
+    this.balance = balance;
   }
 
   public Date getDate() {
@@ -24,6 +26,7 @@ public class Transaction {
     if (o == null || getClass() != o.getClass()) return false;
     Transaction that = (Transaction) o;
     return Double.compare(that.amount, amount) == 0 &&
+        Double.compare(that.balance, balance) == 0 &&
         Objects.equals(to, that.to) &&
         Objects.equals(date, that.date);
   }
@@ -38,6 +41,7 @@ public class Transaction {
     return "Transaction{" +
         "amount=" + amount +
         ", to='" + to + '\'' +
+        ", balance=" + balance +
         ", date=" + date +
         '}';
   }
@@ -47,6 +51,6 @@ public class Transaction {
   }
 
   public String toCSV() {
-    return String.format("%s,%s,%s",to,amount,date);
+    return String.format("%s,%s,%s,%s",date,amount,to,balance);
   }
 }
