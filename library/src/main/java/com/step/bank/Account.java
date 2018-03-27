@@ -7,12 +7,14 @@ public class Account {
   private final AccountNumber accountNumber;
   private Money balance;
   private static final Money MINIMUM_BALANCE = Money.of(CurrencyUnit.of("INR"), 1000.0);
+  private Transactions transactions;
 
   public Account(AccountNumber accountNumber, double balance) throws MinimumBalanceException {
     this.accountNumber = accountNumber;
     Money money = Money.of(CurrencyUnit.of("INR"), balance);
     checkMinimumBalance(money);
     this.balance = money;
+    transactions = new Transactions();
   }
 
   private static void checkMinimumBalance(Money balance) throws MinimumBalanceException {
@@ -25,10 +27,11 @@ public class Account {
     return balance;
   }
 
-  public Money withdraw(float amount) throws MinimumBalanceException {
+  public Money withdraw(double amount, String by) throws MinimumBalanceException {
     Money balance = this.balance.minus(amount);
     checkMinimumBalance(balance);
     this.balance = balance;
+    transactions.debit(amount, by);
     return this.getBalance();
   }
 }

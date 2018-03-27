@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CSVWriter{
-
-
   private PrintWriter printWriter;
 
   public CSVWriter(PrintWriter printWriter, String[] headers) {

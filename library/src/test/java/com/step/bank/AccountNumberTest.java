@@ -11,12 +11,12 @@ public class AccountNumberTest {
 
   @Test(expected = InvalidAccountNumberException.class)
   public void checkAccountNumberValidityWhenExtraNumbers() throws InvalidAccountNumberException {
-    new AccountNumber("12345-1234"); //not working test
+    new AccountNumber("12345-1234");
   }
 
   @Test(expected = InvalidAccountNumberException.class)
   public void checkAccountNumberValidityWhenNumbersAreLessThanFourDigits() throws InvalidAccountNumberException {
-    new AccountNumber("12-12"); //not working test
+    new AccountNumber("12-12");
   }
 
   @Test(expected = InvalidAccountNumberException.class)
