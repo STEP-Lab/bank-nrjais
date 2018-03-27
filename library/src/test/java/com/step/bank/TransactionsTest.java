@@ -60,13 +60,14 @@ public class TransactionsTest {
     transactions.credit(6300,"Nitesh");
     transactions.print(printWriter);
     printWriter.close();
-    assertThat(result, hasItems(new CreditTransaction(1100, "Neeraj").toString()
-        ,new CreditTransaction(2400, "Arvind").toString()
-        ,new CreditTransaction(6300, "Nitesh").toString()));
+    assertThat(result, hasItems(
+        new CreditTransaction(transactions.list.get(0).getDate(),1100, "Neeraj").toString()
+        ,new CreditTransaction(transactions.list.get(1).getDate(),2400, "Arvind").toString()
+        ,new CreditTransaction(transactions.list.get(2).getDate(),6300, "Nitesh").toString()));
   }
 
   @Test
-  public void filterTransactionsByAmount() {
+  public void filterTransactionsByAmountGreaterThan() {
     transactions.credit(100,"Neeraj");
     transactions.credit(1000,"Arvind");
     transactions.credit(10000,"Nitesh");
@@ -74,12 +75,30 @@ public class TransactionsTest {
     transactions.credit(600,"Subham");
     transactions.credit(1100,"Vivek");
     transactions.credit(2400,"Ashish");
-    transactions.credit(6300,"Ravinder");
+    transactions.debit(6300,"Ravinder");
     Transactions filteredTransactions = this.transactions.filterByAmountGreaterThan(1000);
-    assertThat(filteredTransactions.list, hasItems(new CreditTransaction(10000, "Nitesh")
-        ,new CreditTransaction(1100, "Vivek")
-        ,new CreditTransaction(2400, "Ashish")
-        ,new CreditTransaction(6300, "Ravinder")));
+    assertThat(filteredTransactions.list, hasItems(
+        new CreditTransaction(transactions.list.get(2).getDate(),10000, "Nitesh")
+        ,new CreditTransaction(transactions.list.get(5).getDate(),1100, "Vivek")
+        ,new CreditTransaction(transactions.list.get(6).getDate(),2400, "Ashish")
+        ,new DebitTransaction(transactions.list.get(7).getDate(),6300, "Ravinder")));
+  }
+
+  @Test
+  public void filterTransactionsByAmountLessThan() {
+    transactions.credit(100,"Neeraj");
+    transactions.credit(1000,"Arvind");
+    transactions.credit(10000,"Nitesh");
+    transactions.credit(500,"Debarun");
+    transactions.debit(600,"Subham");
+    transactions.credit(1100,"Vivek");
+    transactions.credit(2400,"Ashish");
+    transactions.credit(6300,"Ravinder");
+    Transactions filteredTransactions = this.transactions.filterByAmountLessThan(1000);
+    assertThat(filteredTransactions.list, hasItems(
+        new CreditTransaction(transactions.list.get(3).getDate(),500, "Debarun")
+        ,new DebitTransaction(transactions.list.get(4).getDate(),600, "Subham")
+        ,new CreditTransaction(transactions.list.get(0).getDate(),100, "Neeraj")));
   }
 
   @Test
@@ -100,5 +119,41 @@ public class TransactionsTest {
         ,new DebitTransaction(transactions.list.get(0).getDate(), 120.0,"name").toCSV()
         ,new DebitTransaction(transactions.list.get(1).getDate(), 1230.0,"name2").toCSV()
         ,new DebitTransaction(transactions.list.get(2).getDate(), 1220.0,"name3").toCSV()));
+  }
+
+  @Test
+  public void getAllDebitTransactions() {
+    transactions.credit(100,"Neeraj");
+    transactions.debit(1000,"Arvind");
+    transactions.credit(10000,"Nitesh");
+    transactions.credit(500,"Debarun");
+    transactions.debit(600,"Subham");
+    transactions.credit(1100,"Vivek");
+    transactions.debit(2400,"Ashish");
+    transactions.debit(6300,"Ravinder");
+    Transactions filteredTransactions = this.transactions.getAllDebitTransactions();
+    assertThat(filteredTransactions.list, hasItems(
+        new DebitTransaction(transactions.list.get(1).getDate(),1000, "Arvind")
+        ,new DebitTransaction(transactions.list.get(4).getDate(),600, "Subham")
+        ,new DebitTransaction(transactions.list.get(6).getDate(),6300, "Ravinder")
+        ,new DebitTransaction(transactions.list.get(7).getDate(),2400, "Ashish")));
+  }
+
+  @Test
+  public void getAllCreditTransactions() {
+    transactions.debit(100,"Neeraj");
+    transactions.credit(1000,"Arvind");
+    transactions.debit(10000,"Nitesh");
+    transactions.debit(500,"Debarun");
+    transactions.credit(600,"Subham");
+    transactions.debit(1100,"Vivek");
+    transactions.credit(2400,"Ashish");
+    transactions.credit(6300,"Ravinder");
+    Transactions filteredTransactions = this.transactions.getAllCreditTransactions();
+    assertThat(filteredTransactions.list, hasItems(
+        new CreditTransaction(transactions.list.get(1).getDate(),1000, "Arvind")
+        ,new CreditTransaction(transactions.list.get(4).getDate(),600, "Subham")
+        ,new CreditTransaction(transactions.list.get(6).getDate(),6300, "Ravinder")
+        ,new CreditTransaction(transactions.list.get(7).getDate(),2400, "Ashish")));
   }
 }

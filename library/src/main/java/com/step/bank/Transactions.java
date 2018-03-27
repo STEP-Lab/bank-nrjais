@@ -40,4 +40,31 @@ public class Transactions {
     writer.write(list);
     writer.close();
   }
+
+  public Transactions filterByAmountLessThan(double amount) {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : list) {
+      if (transaction.getAmount() < amount)
+        transactions.list.add(transaction);
+    }
+    return transactions;
+  }
+
+  public Transactions getAllDebitTransactions() {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : list) {
+      if (transaction instanceof DebitTransaction)
+        transactions.list.add(transaction);
+    }
+    return transactions;
+  }
+
+  public Transactions getAllCreditTransactions() {
+    Transactions transactions = new Transactions();
+    for (Transaction transaction : list) {
+      if (transaction instanceof CreditTransaction)
+        transactions.list.add(transaction);
+    }
+    return transactions;
+  }
 }
