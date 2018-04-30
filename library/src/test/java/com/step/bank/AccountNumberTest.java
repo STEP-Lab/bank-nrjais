@@ -1,27 +1,34 @@
 package com.step.bank;
 
+
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+
 public class AccountNumberTest {
-
-  @Test(expected = InvalidAccountNumberException.class)
-  public void checkAccountNumberValidityWhenOnlyNumbers() throws InvalidAccountNumberException {
-    new AccountNumber("12343456");
+  @Test
+  public void checkAccountNumberValidityWhenOnlyNumbers() {
+    Throwable exception = catchThrowable(() -> new AccountNumber("12343456"));
+    assertThat(exception).isInstanceOf(InvalidAccountNumberException.class);
   }
 
-  @Test(expected = InvalidAccountNumberException.class)
-  public void checkAccountNumberValidityWhenExtraNumbers() throws InvalidAccountNumberException {
-    new AccountNumber("12345-1234");
+  @Test
+  public void checkAccountNumberValidityWhenExtraNumbers() {
+    Throwable exception = catchThrowable(() -> new AccountNumber("12345-1234"));
+    assertThat(exception).isInstanceOf(InvalidAccountNumberException.class);
   }
 
-  @Test(expected = InvalidAccountNumberException.class)
-  public void checkAccountNumberValidityWhenNumbersAreLessThanFourDigits() throws InvalidAccountNumberException {
-    new AccountNumber("12-12");
+  @Test
+  public void checkAccountNumberValidityWhenNumbersAreLessThanFourDigits() {
+    Throwable exception = catchThrowable(() -> new AccountNumber("123-12"));
+    assertThat(exception).isInstanceOf(InvalidAccountNumberException.class);
   }
 
-  @Test(expected = InvalidAccountNumberException.class)
-  public void checkAccountNumberValidityWhenLetters() throws InvalidAccountNumberException {
-    new AccountNumber("abcd-abcd");
+  @Test
+  public void checkAccountNumberValidityWhenLetters() {
+    Throwable exception = catchThrowable(() -> new AccountNumber("abcd-abcd"));
+    assertThat(exception).isInstanceOf(InvalidAccountNumberException.class);
   }
 }
 

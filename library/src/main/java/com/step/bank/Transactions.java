@@ -3,10 +3,11 @@ package com.step.bank;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class Transactions {
 
-  protected ArrayList<Transaction> list;
+  protected final ArrayList<Transaction> list;
 
   Transactions() {
     this.list = new ArrayList<>();
@@ -35,6 +36,19 @@ public class Transactions {
     }
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Transactions that = (Transactions) o;
+    return Objects.equals(list, that.list);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(list);
+  }
+
   public void writeCSVTo(PrintWriter printWriter) {
     String[] headers = {"Date","Amount","To","Balance"} ;
     CSVWriter writer = new CSVWriter(printWriter,headers);
@@ -46,6 +60,7 @@ public class Transactions {
     Transactions transactions = new Transactions();
     for (Transaction transaction : list) {
       if (transaction.getAmount() < amount)
+        //Todo : move logic to transaction
         transactions.list.add(transaction);
     }
     return transactions;
